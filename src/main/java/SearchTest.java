@@ -36,6 +36,7 @@ public class SearchTest {
 
             System.out.println("Title: " + doc.get("title"));
             System.out.println("Contents: " + doc.get("contents"));
+            System.out.println("Docno: " + doc.get("Docno"));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
