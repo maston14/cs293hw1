@@ -20,7 +20,7 @@ import java.nio.file.Path;
  */
 public class SearchTest {
     public static void main(String[] args) {
-        String indexPath = "index";
+        String indexPath = "index_standard";
         Path path = new File( indexPath ).toPath();
         try {
             IndexReader directory = DirectoryReader.open( FSDirectory.open( path ) );
@@ -36,7 +36,7 @@ public class SearchTest {
 
             System.out.println("Title: " + doc.get("title"));
             System.out.println("Contents: " + doc.get("contents"));
-            System.out.println("Docno: " + doc.get("Docno"));
+            System.out.println("Docno: " + doc.get("docno"));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {

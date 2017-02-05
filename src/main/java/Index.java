@@ -18,11 +18,11 @@ import java.util.Date;
  */
 public class Index {
     public static void main(String[] args) {
-        String indexPath = "index";
+        String indexPath = "index_standard";
         String docsPath = args[0];
 
         final File docDir = new File(docsPath);
-        if( !docDir.exists() || docDir.canRead() ) {
+        if( !docDir.exists() || !docDir.canRead() ) {
             System.out.println("Doc: " + docDir.getAbsolutePath() + " does not exist or is not readable");
             System.exit(1);
         }

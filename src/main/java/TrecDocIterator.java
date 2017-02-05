@@ -44,12 +44,13 @@ public class TrecDocIterator implements Iterator<Document> {
 
             if( parts.length != 3 ) {
                 System.out.println( "length is " + parts.length + ", Wrong length");
+                System.out.println(parts[0]);
 
             }
 
             String docno = parts[0];
-            String title = parts[1];
-            String contents = parts[2];
+            String title = parts.length >= 2 ? parts[1] : "";
+            String contents = parts.length >= 3 ? parts[2] : "";
 
             doc.add(new StringField("docno", docno, Field.Store.YES));
             doc.add(new TextField("title", title, Field.Store.YES));
