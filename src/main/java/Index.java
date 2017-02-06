@@ -1,5 +1,5 @@
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.standard.ClassicAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -18,7 +18,8 @@ import java.util.Date;
  */
 public class Index {
     public static void main(String[] args) {
-        String indexPath = "index_standard";
+        //String indexPath = "index_standard";
+        String indexPath = "index_classic";
         String docsPath = args[0];
 
         final File docDir = new File(docsPath);
@@ -33,7 +34,12 @@ public class Index {
         try {
             Directory dir = FSDirectory.open( path );
 
-            Analyzer analyzer = new StandardAnalyzer();
+            /*
+            Below to change between stem or not
+             */
+            Analyzer analyzer = new ClassicAnalyzer();
+            //Analyzer analyzer = new EnglishAnalyzer();
+
             IndexWriterConfig iwc = new IndexWriterConfig( analyzer );
 
             iwc.setOpenMode(OpenMode.CREATE);

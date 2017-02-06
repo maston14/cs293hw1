@@ -3,7 +3,7 @@
  */
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -17,6 +17,7 @@ import org.apache.lucene.store.FSDirectory;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.util.Date;
 import java.util.HashMap;
 
 /** Simple command-line based search demo. */
@@ -79,7 +80,12 @@ public class BatchSearch {
         IndexReader reader = DirectoryReader.open( FSDirectory.open( indexPath ) );
         IndexSearcher searcher = new IndexSearcher(reader);
         searcher.setSimilarity(simfn);
-        Analyzer analyzer = new StandardAnalyzer();
+
+        /*
+        Below to change between stem
+         */
+        //Analyzer analyzer = new ClassicAnalyzer();
+        Analyzer analyzer = new EnglishAnalyzer();
 
         BufferedReader in = null;
         if (queries != null) {
@@ -88,7 +94,11 @@ public class BatchSearch {
             in = new BufferedReader(new InputStreamReader(new FileInputStream("queries"), "UTF-8"));
         }
         QueryParser parser = new QueryParser( field, analyzer );
+        int total = 0;
+        int query_num = 0;
         while (true) {
+            Date start = new Date();
+            query_num++;
             String line = in.readLine();
 
             if (line == null || line.length() == -1) {
@@ -103,8 +113,13 @@ public class BatchSearch {
             String[] pair = line.split(" ", 2);
             Query query = parser.parse(pair[1]);
 
+
             doBatchSearch(in, searcher, pair[0], query, simstring);
+            Date end = new Date();
+            total += end.getTime() - start.getTime();
         }
+        double avg = (double)total / (double) query_num;
+        //System.out.println("Average time is: " + avg + " miliseconds");
         reader.close();
     }
 
